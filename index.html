@@ -1,37 +1,120 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Filmes populares</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filmes Populares</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Filmes Populares</h1>
-        <div class="form-control">
-            <input type="search" name="search" id="js-search" placeholder="Digite algum filme para pesquisar...">
+
+  <header>
+    <h1>Filmes Populares</h1>
+
+    <div class="form-control">
+      <input type="text" id="js-search" placeholder="Digite algum filme para pesquisar...">
+      <button type="button" aria-label="Pesquisar">
+        <img src="images/search-icon.svg" alt="">
+      </button>
+    </div>
+
+    <div class="favorite-container">
+      <input type="checkbox" id="js-most-favorites">
+      <label for="js-most-favorites">Mostrar meus filmes favoritos apenas</label>
+    </div>
+  </header>
+
+  <main>
+    <article class="card">
+      <img class="poster" src="images/image 1.png" alt="Avengers Endgame">
+
+      <div class="meta-info">
+        <h3>Avengers Endgame (2019)</h3>
+        <div class="meta-actions">
+          <span class="rating">
+            <img src="images/Star.svg" alt="Nota">
+            9.2
+          </span>
+          <button type="button" class="btn-fav">
+            <img src="images/Heart.svg" alt="">
+            <span>Favoritar</span>
+          </button>
         </div>
-        <p class="favorite-container">
-            <input type="checkbox" name="most-favorites" id="js-most-favorites">
-            <label for="js-most-favorites">Mostrar meus filmes favoritos apenas</label>
-        </p>
-    </header>
-    <main>
-        <article class="card">
-            <img src="images/image 1.png" alt="filme vingadores imagem">
-            <div class="card-info">
-                <h3>Avengers Endgame (2019)</h3>
-                <div class="reputation">
-                    <img src="images/Star.svg" alt="reputação">
-                    9.2
-                </div>
-            </div>
-            <div class="resume">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, quas quos? Unde atque laboriosam quis aspernatur quas illum? Ducimus nobis repellendus ipsa et ipsam earum hic sed ex consectetur recusandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat corporis totam tempore dolore accusantium in excepturi cumque minima illo numquam veniam libero molestias consequatur itaque reprehenderit aliquid, ullam, qui exercitationem?Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, odit velit aspernatur reiciendis et at ratione deleniti libero, cum dolorem saepe perferendis provident aperiam veniam? Animi minus rerum laboriosam quos?
-            </div>
-        </article>
-    </main>
-    <script src="script.js"></script>
+      </div>
+
+      <p class="description">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </p>
+    </article>
+
+    <article class="card selected">
+      <img class="poster" src="images/image 2.png" alt="Doctor Strange">
+
+      <div class="meta-info">
+        <h3>Batman (2022)</h3>
+        <div class="meta-actions">
+          <span class="rating">
+            <img src="images/Star.svg" alt="Nota">
+            9.4
+          </span>
+          <button type="button" class="btn-fav">
+            <img src="images/Heart.svg" alt="">
+            <span>Favoritar</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="description">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </p>
+    </article>
+
+    <article class="card selected">
+      <img class="poster" src="images/image 3.png" alt="Doctor Strange">
+
+      <div class="meta-info">
+        <h3>Doctor Strange in the Multiverse of Madness</h3>
+        <div class="meta-actions">
+          <span class="rating">
+            <img src="images/Star.svg" alt="Nota">
+            8.5
+          </span>
+          <button type="button" class="btn-fav">
+            <img src="images/Heart.svg" alt="">
+            <span>Favoritar</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="description">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </p>
+    </article>
+
+    <article class="card selected">
+      <img class="poster" src="images/image 4.png" alt="Doctor Strange">
+
+      <div class="meta-info">
+        <h3>Avatar (2009)</h3>
+        <div class="meta-actions">
+          <span class="rating">
+            <img src="images/Star.svg" alt="Nota">
+            9.5
+          </span>
+          <button type="button" class="btn-fav">
+            <img src="images/Heart.svg" alt="">
+            <span>Favoritar</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="description">
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+      </p>
+    </article>
+    
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
