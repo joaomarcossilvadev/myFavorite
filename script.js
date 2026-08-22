@@ -1,4 +1,28 @@
 const movieContainer = document.querySelector("#movies-container");
+const searchInput = document.querySelector("#js-search");
+const searchButton = document.querySelector(".form-control button");
+
+async function searchMovies(movieName) {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieName)}&language=pt-BR&page=1`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${TMDB_TOKEN}`
+    }
+  };
+
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    throw new Error(`Erro na requisição: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data.results;
+}
 
 async function getPopularMovies() {
   const url =
@@ -22,6 +46,39 @@ async function getPopularMovies() {
 
   return data.results;
 }
+
+async function handleSearch() {
+  const movieName = searchInput.value.trim();
+
+  if (movieName === "") {
+    return;
+  }
+
+  const movies = await searchMovies(movieName);
+
+  movieContainer.innerHTML = "";
+
+  if (movies.length === 0) {
+    movieContainer.innerHTML = "<p>Nenhum filme encontrado.</p>";
+    return;
+  }
+
+  movies.forEach((movie) => {
+    const card = renderMovie(movie);
+    movieContainer.appendChild(card);
+  });
+
+  searchInput.value = "";
+}
+
+searchButton.addEventListener("click", handleSearch);
+
+searchInput.addEventListener("keydown", function(event) {
+  if (event.key === "Enter") {
+    handleSearch();
+  }
+});
+
 
 function renderMovie(movie) {
   const cardContainer = document.createElement("article");
