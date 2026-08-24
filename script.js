@@ -32,8 +32,8 @@ async function getPopularMovies() {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${TMDB_TOKEN}`,
-    },
+      Authorization: `Bearer ${TMDB_TOKEN}`
+    }
   };
 
   const response = await fetch(url, options);
@@ -73,12 +73,11 @@ async function handleSearch() {
 
 searchButton.addEventListener("click", handleSearch);
 
-searchInput.addEventListener("keydown", function(event) {
+searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     handleSearch();
   }
 });
-
 
 function renderMovie(movie) {
   const cardContainer = document.createElement("article");
@@ -87,7 +86,12 @@ function renderMovie(movie) {
   const img = document.createElement("img");
   img.classList.add("poster");
 
-  img.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  if (movie.poster_path) {
+    img.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+  } else {
+    img.src = "images/no-image.png";
+  }
+
   img.alt = `Pôster do filme ${movie.title}`;
 
   const metaInfo = document.createElement("div");
@@ -122,14 +126,62 @@ function renderMovie(movie) {
   btnFavorite.type = "button";
 
   const imgFavorite = document.createElement("img");
-  imgFavorite.src = "images/Heart.svg";
   imgFavorite.alt = "Ícone de favorito";
 
   const spanFavorite = document.createElement("span");
-  spanFavorite.innerText = "Favoritar";
+
+  const favorites = getFavoriteMovies();
+
+  let isFavorite = false;
+
+  for (let i = 0; i < favorites.length; i++) {
+    if (favorites[i].id === movie.id) {
+      isFavorite = true;
+      break;
+    }
+  }
+
+  if (isFavorite) {
+    imgFavorite.src = "images/Heart-Filled.svg";
+    spanFavorite.innerText = "Favoritado";
+  } else {
+    imgFavorite.src = "images/Heart.svg";
+    spanFavorite.innerText = "Favoritar";
+  }
 
   btnFavorite.appendChild(imgFavorite);
   btnFavorite.appendChild(spanFavorite);
+
+  btnFavorite.addEventListener("click", function () {
+    const favorites = getFavoriteMovies();
+
+    let isFavorite = false;
+    let favoritePosition = -1;
+
+    for (let i = 0; i < favorites.length; i++) {
+      if (favorites[i].id === movie.id) {
+        isFavorite = true;
+        favoritePosition = i;
+        break;
+      }
+    }
+
+    if (isFavorite) {
+      favorites.splice(favoritePosition, 1);
+
+      saveFavorites(favorites);
+
+      imgFavorite.src = "images/Heart.svg";
+      spanFavorite.innerText = "Favoritar";
+    } else {
+      favorites.push(movie);
+
+      saveFavorites(favorites);
+
+      imgFavorite.src = "images/Heart-Full.svg";
+      spanFavorite.innerText = "Favoritado";
+    }
+  });
 
   metaActions.appendChild(rating);
   metaActions.appendChild(btnFavorite);
@@ -151,8 +203,20 @@ function renderMovie(movie) {
   return cardContainer;
 }
 
+function getFavoriteMovies() {
+  return JSON.parse(localStorage.getItem("favorites")) || [];
+}
+
+function saveFavorites(movies) {
+  const convertMoviesToJson = JSON.stringify(movies);
+
+  localStorage.setItem("favorites", convertMoviesToJson);
+}
+
 async function renderMovies() {
   const movies = await getPopularMovies();
+
+  movieContainer.innerHTML = "";
 
   movies.forEach((movie) => {
     const card = renderMovie(movie);
