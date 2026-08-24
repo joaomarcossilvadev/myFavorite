@@ -1,6 +1,7 @@
 const movieContainer = document.querySelector("#movies-container");
 const searchInput = document.querySelector("#js-search");
 const searchButton = document.querySelector(".form-control button");
+const favoriteCheckbox = document.querySelector("#show-favorites");
 
 async function searchMovies(movieName) {
   const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(movieName)}&language=pt-BR&page=1`;
@@ -63,7 +64,7 @@ async function handleSearch() {
     return;
   }
 
-  movies.forEach((movie) => {
+  movies.forEach(function (movie) {
     const card = renderMovie(movie);
     movieContainer.appendChild(card);
   });
@@ -78,6 +79,30 @@ searchInput.addEventListener("keydown", function (event) {
     handleSearch();
   }
 });
+
+favoriteCheckbox.addEventListener("change", function () {
+  if (favoriteCheckbox.checked) {
+    renderFavoriteMovies();
+  } else {
+    renderMovies();
+  }
+});
+
+function renderFavoriteMovies() {
+  const favorites = getFavoriteMovies();
+
+  movieContainer.innerHTML = "";
+
+  if (favorites.length === 0) {
+    movieContainer.innerHTML = "<p>Nenhum filme favorito.</p>";
+    return;
+  }
+
+  favorites.forEach(function (movie) {
+    const card = renderMovie(movie);
+    movieContainer.appendChild(card);
+  });
+}
 
 function renderMovie(movie) {
   const cardContainer = document.createElement("article");
@@ -142,7 +167,7 @@ function renderMovie(movie) {
   }
 
   if (isFavorite) {
-    imgFavorite.src = "images/Heart-Filled.svg";
+    imgFavorite.src = "images/Heart-full.svg";
     spanFavorite.innerText = "Favoritado";
   } else {
     imgFavorite.src = "images/Heart.svg";
@@ -173,12 +198,16 @@ function renderMovie(movie) {
 
       imgFavorite.src = "images/Heart.svg";
       spanFavorite.innerText = "Favoritar";
+
+      if (favoriteCheckbox.checked) {
+        renderFavoriteMovies();
+      }
     } else {
       favorites.push(movie);
 
       saveFavorites(favorites);
 
-      imgFavorite.src = "images/Heart-Full.svg";
+      imgFavorite.src = "images/Heart-Filled.svg";
       spanFavorite.innerText = "Favoritado";
     }
   });
@@ -218,7 +247,7 @@ async function renderMovies() {
 
   movieContainer.innerHTML = "";
 
-  movies.forEach((movie) => {
+  movies.forEach(function (movie) {
     const card = renderMovie(movie);
 
     movieContainer.appendChild(card);
