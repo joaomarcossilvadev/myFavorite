@@ -1,56 +1,22 @@
-export default async function handler(req, res) {
-  const { type = "popular", query = "" } = req.query;
+export async function getPopularMovies() {
+  const response = await fetch("/api/movies?type=popular");
 
-  const token = process.env.TMDB_TOKEN;
-
-  if (!token) {
-    return res.status(500).json({
-      error: "Token do TMDB não configurado."
-    });
+  if (!response.ok) {
+    throw new Error(`Erro na requisição: ${response.status}`);
   }
 
-  let url;
+  return await response.json();
+}
 
-  if (type === "search") {
-    if (!query.trim()) {
-      return res.status(400).json({
-        error: "Informe um filme para pesquisar."
-      });
-    }
+export async function searchMovies(movieName) {
+  const url =
+    `/api/movies?type=search&query=${encodeURIComponent(movieName)}`;
 
-    url =
-      `https://api.themoviedb.org/3/search/movie` +
-      `?query=${encodeURIComponent(query)}` +
-      `&language=pt-BR&page=1`;
-  } else {
-    url =
-      "https://api.themoviedb.org/3/movie/popular" +
-      "?language=pt-BR&page=1";
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error(`Erro na requisição: ${response.status}`);
   }
 
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${token}`
-      }
-    });
-
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: "Erro ao consultar o TMDB."
-      });
-    }
-
-    const data = await response.json();
-
-    return res.status(200).json(data.results);
-  } catch (error) {
-    console.error(error);
-
-    return res.status(500).json({
-      error: "Erro interno do servidor."
-    });
-  }
+  return await response.json();
 }
