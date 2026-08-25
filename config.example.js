@@ -1,1 +1,0 @@
-export const TMDB_TOKEN = "COLOQUE_SEU_TOKEN_AQUI";
