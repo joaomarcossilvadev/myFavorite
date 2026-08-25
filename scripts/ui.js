@@ -129,7 +129,7 @@ function updateFavoriteButton(
   isFavorite
 ) {
   if (isFavorite) {
-    imgFavorite.src = "images/Heart-Full.svg";
+    imgFavorite.src = "images/heart-Full.svg";
     spanFavorite.innerText = "Favoritado";
   } else {
     imgFavorite.src = "images/Heart.svg";
